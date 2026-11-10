@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "title": "Nantanatorn Buranachalermpong – Full-stack developer",
+    "description": "Full-stack developer who builds complete web applications and adds AI features to them, from LLM and RAG integration to real-time voice."
+  },
+  "nav": { "about": "About", "work": "Experience", "stack": "Stack", "projects": "Projects", "contact": "Contact" },
+  "header": { "role": "Full-stack developer", "clock": "BKK", "cta": "Contact" },
+  "hero": {
+    "first": "NANTANATORN",
+    "last": "BURANACHALERMPONG",
+    "status": "Open to entry-level roles",
+    "location": "Bangkok and Chonburi, Thailand",
+    "role": "Full-stack developer",
+    "intro": "I build complete web applications, frontend to database, and add LLM, RAG and real-time voice features to them.",
+    "photoAlt": "Portrait of Nantanatorn in a suit, standing in a park",
+    "ctaWork": "See projects",
+    "ctaContact": "Get in touch"
+  },
+  "about": {
+    "title": "HELLO",
+    "lead": "Information Technology graduate from Kasetsart University, looking for an entry-level web, software or AI developer role, remote or hybrid.",
+    "body": [
+      "I build web apps with Angular, Vue.js and React, and backends with Node.js, .NET and Laravel.",
+      "Working in Agile teams taught me to ship features, fix tricky bugs and test with real users. One kiosk UI went through five versions based on feedback and large-screen tests on site."
+    ],
+    "stats": [
+      { "value": "2", "label": "Internships" },
+      { "value": "4", "label": "Featured projects" },
+      { "value": "3.64", "label": "GPA at Kasetsart University" }
+    ],
+    "education": {
+      "label": "Education",
+      "school": "Kasetsart University, Sriracha Campus",
+      "degree": "Bachelor of Science in Information Technology",
+      "note": "GPA 3.64, Scholarship 5A (1/2023, 1/2025), Good Study Award, and an oral presentation rated Very Good at AUCC 2025.",
+      "period": "Jun 2022 – Apr 2026"
+    },
+    "languages": {
+      "label": "Languages",
+      "items": [
+        { "name": "Thai", "level": "Native" },
+        { "name": "English", "level": "CEFR B1, TOEIC 595 (Apr 2025)" },
+        { "name": "Chinese", "level": "Beginner, self-taught" }
+      ]
+    }
+  },
+  "experience": {
+    "title": "WHERE I'VE WORKED",
+    "items": [
+      {
+        "company": "Tamkang University",
+        "logo": "/logos/tamkang.jpg",
+        "period": "Feb 2026 – Jun 2026",
+        "tag": "Research internship",
+        "location": "Taiwan, KU scholarship",
+        "role": "TEEP Intern",
+        "points": [
+          "Worked in a research team under a faculty advisor on invisible watermarking for Stable Diffusion images (DCT on the latent space).",
+          "Implemented Particle Swarm Optimization (PSO) to replace the lab's random choice of embedding positions.",
+          "Benchmarked on 100 images under 12 attacks: average detection rose from 66.1% to 82.2% with image quality maintained (mixed-PSNR 30.12 vs 29.66 dB)."
+        ],
+        "stack": ["Python", "Stable Diffusion", "DCT", "PSO"]
+      },
+      {
+        "company": "Exzy Company Limited",
+        "logo": "",
+        "period": "Nov 2025 – Feb 2026",
+        "tag": "Internship",
+        "location": "",
+        "role": "Full Stack Developer Intern",
+        "points": [
+          "Built AI Booth Assistant, owning both the Node.js backend (Gemini Live API, WebSockets) and the Unity frontend.",
+          "Implemented RAG with a PDF-upload API that embeds product documents into MongoDB Atlas. Migrated to gemini-embedding-001 and re-embedded the knowledge base.",
+          "Fixed unresponsive voice input with streaming push-to-talk, and added session resumption to keep context past the Live API's 10-minute limit.",
+          "Worked in an Agile team with daily stand-ups."
+        ],
+        "stack": ["Node.js", "Unity", "Gemini Live API", "WebSockets", "MongoDB Atlas"]
+      }
+    ]
+  },
+  "stack": {
+    "title": "MY STACK",
+    "groups": [
+      { "name": "Languages", "items": ["Python", "C", "C#", "JavaScript", "TypeScript", "PHP", "Java", "Kotlin"] },
+      { "name": "Frameworks", "items": ["Angular", "React", "Vue.js", "Laravel", ".NET", "Node.js", "Express.js"] },
+      { "name": "Databases", "items": ["MSSQL", "MySQL", "PostgreSQL", "MongoDB"] },
+      { "name": "AI", "items": ["Gemini API", "RAG", "Embeddings", "Stable Diffusion", "PSO"] },
+      { "name": "Tools", "items": ["Git", "GitHub", "Docker", "VS Code", "Android Studio", "Figma", "Jupyter", "Unity", "WebSockets", "Agile"] }
+    ]
+  },
+  "work": {
+    "title": "WHAT I'VE BUILT",
+    "hint": "Drag to scroll",
+    "items": [
+      {
+        "name": "AI Booth Assistant",
+        "mark": "BOOTH",
+        "year": "2026",
+        "summary": "A real-time voice kiosk for exhibitions. Visitors talk to it and get answers grounded in the exhibitor's own product documents through RAG. Built during my Exzy internship.",
+        "stack": ["Unity", "Node.js", "WebSockets", "Gemini Live API", "MongoDB Atlas"]
+      },
+      {
+        "name": "VillageClubHouse",
+        "mark": "CLUB",
+        "year": "2025",
+        "summary": "A booking app for village clubhouse facilities such as badminton courts and meeting rooms. It checks available time slots and prevents double-booking. Admins review and approve requests.",
+        "stack": ["Angular", ".NET", "MSSQL"]
+      },
+      {
+        "name": "Online Banking",
+        "mark": "BANK",
+        "year": "2025",
+        "summary": "A simulated online banking web app with user login. Supports deposits, withdrawals and transfers with balance checking. Solo project, frontend to database.",
+        "stack": ["Vue.js", "Laravel", "PostgreSQL"]
+      },
+      {
+        "name": "Commonfee-management",
+        "mark": "FEES",
+        "year": "2024",
+        "summary": "A village common-fee system with separate admin and resident sides. It issues invoices by email, records payments and shows fee balances.",
+        "stack": ["Angular", "Node.js", "TypeScript", "MSSQL"]
+      }
+    ]
+  },
+  "contact": {
+    "title": "LET'S TALK",
+    "lead": "I am open to entry-level web, software and AI developer roles, remote or hybrid. Email is the fastest way to reach me.",
+    "phoneLabel": "Phone",
+    "githubLabel": "GitHub",
+    "locationLabel": "Based in",
+    "location": "Bangkok and Chonburi, Thailand"
+  },
+  "footer": "Built with Next.js and three.js",
+  "switchLabel": "Switch to English"
+}

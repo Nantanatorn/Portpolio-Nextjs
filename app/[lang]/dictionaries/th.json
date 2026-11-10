@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "title": "Nantanatorn Buranachalermpong – Full-stack developer",
+    "description": "Full-stack developer ที่สร้างเว็บแอปพลิเคชันครบวงจรและเพิ่มความสามารถด้าน AI ตั้งแต่การเชื่อมต่อ LLM และ RAG ไปจนถึงระบบเสียงเรียลไทม์"
+  },
+  "nav": { "about": "เกี่ยวกับ", "work": "ประสบการณ์", "stack": "ทักษะ", "projects": "ผลงาน", "contact": "ติดต่อ" },
+  "header": { "role": "Full-stack developer", "clock": "BKK", "cta": "ติดต่อ" },
+  "hero": {
+    "first": "NANTANATORN",
+    "last": "BURANACHALERMPONG",
+    "status": "เปิดรับงานระดับเริ่มต้น",
+    "location": "กรุงเทพฯ และชลบุรี ประเทศไทย",
+    "role": "Full-stack developer",
+    "intro": "ผมสร้างเว็บแอปพลิเคชันครบทั้ง frontend จนถึงฐานข้อมูล และเพิ่มฟีเจอร์ LLM, RAG และระบบเสียงเรียลไทม์เข้าไปในแอป",
+    "photoAlt": "ภาพถ่ายของ Nantanatorn ในชุดสูท ยืนอยู่ในสวน",
+    "ctaWork": "ดูผลงาน",
+    "ctaContact": "ติดต่อ"
+  },
+  "about": {
+    "title": "สวัสดี",
+    "lead": "เพิ่งจบสาขาเทคโนโลยีสารสนเทศ มหาวิทยาลัยเกษตรศาสตร์ กำลังมองหางานระดับเริ่มต้นสาย web, software หรือ AI developer ทั้งแบบรีโมตและไฮบริด",
+    "body": [
+      "ผมสร้างเว็บแอปด้วย Angular, Vue.js และ React และทำ backend ด้วย Node.js, .NET และ Laravel",
+      "การทำงานในทีม Agile สอนให้ผมส่งฟีเจอร์ แก้บั๊กยากๆ และทดสอบกับผู้ใช้จริง UI ของตู้คีออสก์ตัวหนึ่งถูกปรับถึงห้าเวอร์ชัน จากความเห็นของทีมและการทดสอบบนจอใหญ่หน้างาน"
+    ],
+    "stats": [
+      { "value": "2", "label": "ที่ฝึกงาน" },
+      { "value": "4", "label": "ผลงานเด่น" },
+      { "value": "3.64", "label": "เกรดเฉลี่ย มหาวิทยาลัยเกษตรศาสตร์" }
+    ],
+    "education": {
+      "label": "การศึกษา",
+      "school": "มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตศรีราชา",
+      "degree": "วิทยาศาสตรบัณฑิต สาขาเทคโนโลยีสารสนเทศ",
+      "note": "เกรดเฉลี่ย 3.64 ทุนเรียนดี 5A (1/2023, 1/2025) รางวัลเรียนดี และนำเสนอด้วยวาจาที่ AUCC 2025 ได้ระดับ Very Good",
+      "period": "มิ.ย. 2022 – เม.ย. 2026"
+    },
+    "languages": {
+      "label": "ภาษา",
+      "items": [
+        { "name": "ไทย", "level": "เจ้าของภาษา" },
+        { "name": "อังกฤษ", "level": "CEFR B1, TOEIC 595 (เม.ย. 2025)" },
+        { "name": "จีน", "level": "เริ่มต้น เรียนรู้ด้วยตนเอง" }
+      ]
+    }
+  },
+  "experience": {
+    "title": "ประสบการณ์",
+    "items": [
+      {
+        "company": "Tamkang University",
+        "logo": "/logos/tamkang.jpg",
+        "period": "ก.พ. 2026 – มิ.ย. 2026",
+        "tag": "ฝึกงานวิจัย",
+        "location": "ไต้หวัน ทุน มก.",
+        "role": "นักศึกษาฝึกงาน โครงการ TEEP",
+        "points": [
+          "ทำงานในทีมวิจัยภายใต้อาจารย์ที่ปรึกษา เรื่องลายน้ำที่มองไม่เห็นสำหรับภาพจาก Stable Diffusion (DCT บน latent space)",
+          "ใช้ Particle Swarm Optimization (PSO) แทนการสุ่มเลือกตำแหน่งฝังลายน้ำของแล็บ",
+          "ทดสอบกับภาพ 100 ภาพภายใต้การโจมตี 12 แบบ ค่าเฉลี่ยการตรวจจับเพิ่มจาก 66.1% เป็น 82.2% โดยคุณภาพภาพยังคงเดิม (mixed-PSNR 30.12 เทียบกับ 29.66 dB)"
+        ],
+        "stack": ["Python", "Stable Diffusion", "DCT", "PSO"]
+      },
+      {
+        "company": "บริษัท Exzy จำกัด",
+        "logo": "",
+        "period": "พ.ย. 2025 – ก.พ. 2026",
+        "tag": "ฝึกงาน",
+        "location": "",
+        "role": "นักศึกษาฝึกงาน Full Stack Developer",
+        "points": [
+          "สร้าง AI Booth Assistant โดยดูแลทั้ง backend ด้วย Node.js (Gemini Live API, WebSockets) และ frontend ด้วย Unity",
+          "พัฒนา RAG พร้อม API อัปโหลด PDF ที่ embed เอกสารสินค้าลง MongoDB Atlas ย้ายไปใช้ gemini-embedding-001 และ embed ฐานความรู้ใหม่ทั้งหมด",
+          "แก้ปัญหาเสียงที่ไม่ตอบสนองด้วย push-to-talk แบบสตรีม และเพิ่ม session resumption เพื่อให้บทสนทนาต่อเนื่องเกินขีดจำกัด 10 นาทีของ Live API",
+          "ทำงานในทีม Agile ที่มี daily stand-up"
+        ],
+        "stack": ["Node.js", "Unity", "Gemini Live API", "WebSockets", "MongoDB Atlas"]
+      }
+    ]
+  },
+  "stack": {
+    "title": "ทักษะ",
+    "groups": [
+      { "name": "ภาษาโปรแกรม", "items": ["Python", "C", "C#", "JavaScript", "TypeScript", "PHP", "Java", "Kotlin"] },
+      { "name": "เฟรมเวิร์ก", "items": ["Angular", "React", "Vue.js", "Laravel", ".NET", "Node.js", "Express.js"] },
+      { "name": "ฐานข้อมูล", "items": ["MSSQL", "MySQL", "PostgreSQL", "MongoDB"] },
+      { "name": "AI", "items": ["Gemini API", "RAG", "Embeddings", "Stable Diffusion", "PSO"] },
+      { "name": "เครื่องมือ", "items": ["Git", "GitHub", "Docker", "VS Code", "Android Studio", "Figma", "Jupyter", "Unity", "WebSockets", "Agile"] }
+    ]
+  },
+  "work": {
+    "title": "ผลงาน",
+    "hint": "ลากเพื่อเลื่อนดู",
+    "items": [
+      {
+        "name": "AI Booth Assistant",
+        "mark": "BOOTH",
+        "year": "2026",
+        "summary": "ตู้คีออสก์เสียงเรียลไทม์สำหรับงานนิทรรศการ ผู้เข้าชมพูดคุยได้โดยตรง และได้คำตอบที่อ้างอิงจากเอกสารสินค้าของผู้จัดแสดงผ่าน RAG ทำระหว่างฝึกงานที่ Exzy",
+        "stack": ["Unity", "Node.js", "WebSockets", "Gemini Live API", "MongoDB Atlas"]
+      },
+      {
+        "name": "VillageClubHouse",
+        "mark": "CLUB",
+        "year": "2025",
+        "summary": "แอปจองสิ่งอำนวยความสะดวกของคลับเฮาส์หมู่บ้าน เช่น สนามแบดมินตันและห้องประชุม ตรวจสอบช่วงเวลาว่างและป้องกันการจองซ้ำ ผู้ดูแลตรวจและอนุมัติคำขอจอง",
+        "stack": ["Angular", ".NET", "MSSQL"]
+      },
+      {
+        "name": "Online Banking",
+        "mark": "BANK",
+        "year": "2025",
+        "summary": "เว็บแอปจำลองระบบธนาคารออนไลน์ มีระบบเข้าสู่ระบบ รองรับการฝาก ถอน และโอน พร้อมตรวจสอบยอดเงิน ทำคนเดียวตั้งแต่ frontend จนถึงฐานข้อมูล",
+        "stack": ["Vue.js", "Laravel", "PostgreSQL"]
+      },
+      {
+        "name": "Commonfee-management",
+        "mark": "FEES",
+        "year": "2024",
+        "summary": "ระบบจัดการค่าส่วนกลางของหมู่บ้าน แยกฝั่งผู้ดูแลและลูกบ้าน ออกใบแจ้งหนี้ส่งทางอีเมล บันทึกการชำระเงิน และแสดงยอดค้างชำระ",
+        "stack": ["Angular", "Node.js", "TypeScript", "MSSQL"]
+      }
+    ]
+  },
+  "contact": {
+    "title": "คุยกัน",
+    "lead": "ผมเปิดรับงานระดับเริ่มต้นสาย web, software และ AI developer ทั้งแบบรีโมตและไฮบริด อีเมลคือช่องทางที่ติดต่อได้เร็วที่สุด",
+    "phoneLabel": "โทรศัพท์",
+    "githubLabel": "GitHub",
+    "locationLabel": "ที่อยู่",
+    "location": "กรุงเทพฯ และชลบุรี ประเทศไทย"
+  },
+  "footer": "สร้างด้วย Next.js และ three.js",
+  "switchLabel": "Switch to English"
+}
