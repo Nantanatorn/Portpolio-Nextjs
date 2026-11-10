@@ -3,7 +3,7 @@
     "title": "Nantanatorn Buranachalermpong – Full-stack developer",
     "description": "Full-stack developer ที่สร้างเว็บแอปพลิเคชันครบวงจรและเพิ่มความสามารถด้าน AI ตั้งแต่การเชื่อมต่อ LLM และ RAG ไปจนถึงระบบเสียงเรียลไทม์"
   },
-  "nav": { "about": "เกี่ยวกับ", "work": "ประสบการณ์", "stack": "ทักษะ", "projects": "ผลงาน", "contact": "ติดต่อ" },
+  "nav": { "about": "เกี่ยวกับ", "work": "ประสบการณ์", "stack": "ทักษะ", "projects": "ผลงาน", "writing": "บทความ", "contact": "ติดต่อ" },
   "header": { "role": "Full-stack developer", "clock": "BKK", "cta": "ติดต่อ" },
   "hero": {
     "first": "NANTANATORN",
@@ -14,7 +14,8 @@
     "intro": "ผมสร้างเว็บแอปพลิเคชันครบทั้ง frontend จนถึงฐานข้อมูล และเพิ่มฟีเจอร์ LLM, RAG และระบบเสียงเรียลไทม์เข้าไปในแอป",
     "photoAlt": "ภาพถ่ายของ Nantanatorn ในชุดสูท ยืนอยู่ในสวน",
     "ctaWork": "ดูผลงาน",
-    "ctaContact": "ติดต่อ"
+    "ctaContact": "ติดต่อ",
+    "ctaCv": "ดาวน์โหลด CV"
   },
   "about": {
     "title": "สวัสดี",
@@ -25,7 +26,7 @@
     ],
     "stats": [
       { "value": "2", "label": "ที่ฝึกงาน" },
-      { "value": "4", "label": "ผลงานเด่น" },
+      { "value": "5", "label": "ผลงานเด่น" },
       { "value": "3.64", "label": "เกรดเฉลี่ย มหาวิทยาลัยเกษตรศาสตร์" }
     ],
     "education": {
@@ -63,7 +64,7 @@
       },
       {
         "company": "บริษัท Exzy จำกัด",
-        "logo": "",
+        "logo": "/logos/exzy.webp",
         "period": "พ.ย. 2025 – ก.พ. 2026",
         "tag": "ฝึกงาน",
         "location": "",
@@ -90,35 +91,75 @@
   },
   "work": {
     "title": "ผลงาน",
-    "hint": "ลากเพื่อเลื่อนดู",
+    "hint": "ปัดหรือลากเพื่อดูเพิ่ม",
+    "hintScroll": "เลื่อนลงต่อเพื่อดูเพิ่ม",
+    "repoLabel": "ดูโค้ดบน GitHub",
     "items": [
       {
         "name": "AI Booth Assistant",
         "mark": "BOOTH",
         "year": "2026",
         "summary": "ตู้คีออสก์เสียงเรียลไทม์สำหรับงานนิทรรศการ ผู้เข้าชมพูดคุยได้โดยตรง และได้คำตอบที่อ้างอิงจากเอกสารสินค้าของผู้จัดแสดงผ่าน RAG ทำระหว่างฝึกงานที่ Exzy",
-        "stack": ["Unity", "Node.js", "WebSockets", "Gemini Live API", "MongoDB Atlas"]
-      },
-      {
-        "name": "VillageClubHouse",
-        "mark": "CLUB",
-        "year": "2025",
-        "summary": "แอปจองสิ่งอำนวยความสะดวกของคลับเฮาส์หมู่บ้าน เช่น สนามแบดมินตันและห้องประชุม ตรวจสอบช่วงเวลาว่างและป้องกันการจองซ้ำ ผู้ดูแลตรวจและอนุมัติคำขอจอง",
-        "stack": ["Angular", ".NET", "MSSQL"]
+        "stack": ["Unity", "Node.js", "WebSockets", "Gemini Live API", "MongoDB Atlas"],
+        "repo": "https://github.com/Nantanatorn/AI-Booth-Assistant",
+        "image": "/projects/ai-booth-assistant.webp",
+        "imageAlt": "หน้าจอตู้คีออสก์ AI Booth Assistant ที่รันอยู่ใน Unity editor"
       },
       {
         "name": "Online Banking",
         "mark": "BANK",
         "year": "2025",
         "summary": "เว็บแอปจำลองระบบธนาคารออนไลน์ มีระบบเข้าสู่ระบบ รองรับการฝาก ถอน และโอน พร้อมตรวจสอบยอดเงิน ทำคนเดียวตั้งแต่ frontend จนถึงฐานข้อมูล",
-        "stack": ["Vue.js", "Laravel", "PostgreSQL"]
+        "stack": ["Vue.js", "Laravel", "PostgreSQL"],
+        "repo": "https://github.com/Nantanatorn/Online-Banking",
+        "image": "/projects/online-banking.webp",
+        "imageAlt": "หน้าแดชบอร์ดของ Online Banking แสดงยอดเงินในบัญชีและประวัติธุรกรรม"
+      },
+      {
+        "name": "VillageClubHouse",
+        "mark": "CLUB",
+        "year": "2025",
+        "summary": "แอปจองสิ่งอำนวยความสะดวกของคลับเฮาส์หมู่บ้าน เช่น สนามแบดมินตันและห้องประชุม ตรวจสอบช่วงเวลาว่างและป้องกันการจองซ้ำ ผู้ดูแลตรวจและอนุมัติคำขอจอง",
+        "stack": ["Angular", ".NET", "MSSQL"],
+        "repo": "https://github.com/Nantanatorn/VillageClubHouse",
+        "image": "",
+        "imageAlt": ""
       },
       {
         "name": "Commonfee-management",
         "mark": "FEES",
         "year": "2024",
         "summary": "ระบบจัดการค่าส่วนกลางของหมู่บ้าน แยกฝั่งผู้ดูแลและลูกบ้าน ออกใบแจ้งหนี้ส่งทางอีเมล บันทึกการชำระเงิน และแสดงยอดค้างชำระ",
-        "stack": ["Angular", "Node.js", "TypeScript", "MSSQL"]
+        "stack": ["Angular", "Node.js", "TypeScript", "MSSQL"],
+        "repo": "https://github.com/Nantanatorn/Commonfee-management",
+        "image": "/projects/commonfee-management.webp",
+        "imageAlt": "หน้าแดชบอร์ดผู้ดูแลของ Commonfee-management แสดงสรุปค่าส่วนกลางและแผนผังหมู่บ้าน"
+      },
+      {
+        "name": "NAMKUB-Store",
+        "mark": "NAMKUB",
+        "year": "2024",
+        "summary": "ร้านค้าออนไลน์สำหรับขายน้ำดื่ม มีหน้าแรกและหน้าเข้าสู่ระบบ ทำ frontend ด้วย Angular, backend ด้วย Node.js และใช้ฐานข้อมูล MSSQL",
+        "stack": ["Angular", "Node.js", "MSSQL"],
+        "repo": "https://github.com/Nantanatorn/NAMKUB-Store",
+        "image": "",
+        "imageAlt": ""
+      }
+    ]
+  },
+  "writing": {
+    "title": "บทความ",
+    "more": "อ่านเพิ่มเติมบน Medium",
+    "items": [
+      {
+        "title": "รีวิวฝึกงาน Dev ตัวน้อยๆ กับ Exzy ที่ได้มากกว่าที่คุณคิด!",
+        "date": "12 ก.พ. 2026",
+        "summary": "เล่าว่า Exzy ทำอะไร จากที่คิดว่าจะได้ทำ Angular กับ Node.js กลายเป็นได้สร้าง AI Booth Assistant ด้วย Unity, Gemini Live และ RAG และปรับไปสามเวอร์ชันหลังทดสอบบนจอใหญ่",
+        "url": "https://medium.com/@nantanatorns.4210/%E0%B8%A3%E0%B8%B5%E0%B8%A7%E0%B8%B4%E0%B8%A7%E0%B8%9D%E0%B8%B6%E0%B8%81%E0%B8%87%E0%B8%B2%E0%B8%99-dev-%E0%B8%95%E0%B8%B1%E0%B8%A7%E0%B8%99%E0%B9%89%E0%B8%AD%E0%B8%A2%E0%B9%86-%E0%B8%81%E0%B8%B1%E0%B8%9A-exzy-%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B9%84%E0%B8%94%E0%B9%89%E0%B8%A1%E0%B8%B2%E0%B8%81%E0%B8%81%E0%B8%A7%E0%B9%88%E0%B8%B2%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B8%B4%E0%B8%94-7051bc25ec5d",
+        "image": "/writing/exzy-internship-th.webp",
+        "imageAlt": "หน้าจอจองห้องประชุมของ Exzy ติดอยู่ข้างประตูกระจก",
+        "read": "อ่านบน Medium",
+        "alt": { "label": "อ่านฉบับภาษาอังกฤษ", "url": "https://medium.com/@nantanatorns.4210/my-dev-internship-at-exzy-way-more-than-i-ever-expected-c09f5223ecb1" }
       }
     ]
   },
@@ -128,7 +169,8 @@
     "phoneLabel": "โทรศัพท์",
     "githubLabel": "GitHub",
     "locationLabel": "ที่อยู่",
-    "location": "กรุงเทพฯ และชลบุรี ประเทศไทย"
+    "location": "กรุงเทพฯ และชลบุรี ประเทศไทย",
+    "cvLabel": "ดาวน์โหลด CV (PDF)"
   },
   "footer": "สร้างด้วย Next.js และ three.js",
   "switchLabel": "Switch to English"

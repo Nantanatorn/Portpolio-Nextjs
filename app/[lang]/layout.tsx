@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Anuphan, JetBrains_Mono, Unbounded } from "next/font/google";
 import "../globals.css";
-import { ParticleField } from "@/components/ParticleField";
+import { Cursor } from "@/components/Cursor";
+import { Intro } from "@/components/Intro";
+import { INTRO_KEY } from "@/components/introKey";
+import { StarField } from "@/components/StarField";
 import { getDictionary, hasLocale, locales } from "./dictionaries";
 
 const unbounded = Unbounded({
@@ -43,15 +46,28 @@ export default async function RootLayout({
 }: LayoutProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
+  const t = await getDictionary(lang);
 
   return (
     <html
       lang={lang}
       data-scroll-behavior="smooth"
       className={`${unbounded.variable} ${anuphan.variable} ${jetbrains.variable}`}
+      suppressHydrationWarning
     >
+      <head>
+        {/* Before first paint: opt in to heading reveals (JS is running), and
+            hide the intro if it already played this session. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `document.documentElement.setAttribute("data-reveal","");try{if(sessionStorage.getItem("${INTRO_KEY}")==="1")document.documentElement.setAttribute("data-intro-seen","")}catch(e){}`,
+          }}
+        />
+      </head>
       <body>
-        <ParticleField />
+        <Intro lang={lang} name="Nantanatorn B." role={t.header.role} />
+        <Cursor />
+        <StarField />
         {children}
       </body>
     </html>

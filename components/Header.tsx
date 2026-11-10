@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { LangSwitch } from "./LangSwitch";
 
-const IDS = ["about", "work", "stack", "projects", "contact"] as const;
+const IDS = ["about", "work", "stack", "projects", "writing", "contact"] as const;
 
 type Props = {
   lang: string;
@@ -69,7 +69,7 @@ export function Header({ lang, nav, role, clock, cta, switchLabel }: Props) {
             key={id}
             href={`#${id}`}
             aria-current={active === id ? "true" : undefined}
-            className={`rounded-full px-2.5 py-1.5 transition-colors sm:px-3.5 ${
+            className={`whitespace-nowrap rounded-full px-2 py-1.5 transition-colors sm:px-3.5 ${
               active === id
                 ? "bg-paper/10 text-paper"
                 : "text-mist hover:text-paper"

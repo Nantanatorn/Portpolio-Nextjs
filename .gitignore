@@ -24,6 +24,9 @@
 # production
 /build
 
+# original CV (the served copy is public/Nantanatorn-CV.pdf)
+/Nantanatorn CV.pdf
+
 # misc
 .DS_Store
 *.pem
