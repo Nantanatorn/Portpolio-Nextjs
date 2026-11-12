@@ -5,7 +5,7 @@ import type { RoomData } from "./mountRoom";
 import { signal } from "./signals";
 
 const PANEL =
-  "no-scrollbar pointer-events-auto max-h-[72svh] w-full max-w-xl overflow-y-auto overscroll-contain rounded-3xl border border-line bg-panel/75 p-6 backdrop-blur-md sm:p-8";
+  "no-scrollbar pointer-events-auto max-h-[72svh] w-full max-w-[min(36rem,calc(50vw-1.5rem))] overflow-y-auto overscroll-contain rounded-3xl border border-line bg-panel/75 p-5 backdrop-blur-md lg:p-8";
 
 export interface RoomPanel {
   id: string;

@@ -138,7 +138,8 @@ export function mountRoom(
   slide.visible = false;
   scene.add(slide);
 
-  const sky = createSky({ count: 420, ...SKY_REGION, pixelRatio: ratios[0] });
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const sky = createSky({ count: 420, ...SKY_REGION, pixelRatio: ratios[0], meteors: !reduced });
   scene.add(sky.group);
 
   // Hologram: the morphing particle cloud, shrunk onto the projector.
@@ -316,7 +317,7 @@ export function mountRoom(
     const dt = last < 0 ? 0 : Math.min(0.1, (time - last) / 1000);
     last = time;
 
-    tour += (rawTour() - tour) * (1 - Math.exp(-dt * FOLLOW));
+    tour = reduced ? rawTour() : tour + (rawTour() - tour) * (1 - Math.exp(-dt * FOLLOW));
     if (Math.abs(rawTour() - tour) < 0.0005) tour = rawTour();
 
     // Panels follow the eased value too, so text and camera stay in step.
@@ -358,7 +359,7 @@ export function mountRoom(
     pageMat.opacity += (pageOn - pageMat.opacity) * (1 - Math.exp(-dt * 6));
     page.visible = pageMat.opacity > 0.01;
 
-    tilt.lerp(pointer, 1 - Math.exp(-dt * 3));
+    if (!reduced) tilt.lerp(pointer, 1 - Math.exp(-dt * 3));
     camera.position.copy(cur.pos);
     camera.position.x += tilt.x * 0.12;
     camera.position.y -= tilt.y * 0.06;
@@ -366,9 +367,9 @@ export function mountRoom(
     camera.setViewOffset(size.w, size.h, cur.shift * size.w, 0, size.w, size.h);
 
     holo.show(shape);
-    holo.update(time, dt, false);
+    holo.update(reduced ? 0 : time, dt, reduced);
     screens.forEach((s) => s.update(time));
-    sky.update(time);
+    sky.update(reduced ? 0 : time);
     props.update(dt);
     // Contact: type the contact command on the monitor, print the CV.
     inContact = stage === 6 && tour - 6 > MOVE * 0.6;

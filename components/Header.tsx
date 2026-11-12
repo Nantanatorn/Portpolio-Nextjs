@@ -96,7 +96,7 @@ export function Header({ lang, nav, role, clock, cta, switchLabel, menu }: Props
 
         <nav
           aria-label="Sections"
-          className="flex items-center gap-0.5 rounded-full border border-line bg-ink/70 p-1 text-sm backdrop-blur max-md:hidden"
+          className="flex items-center gap-0.5 rounded-full border border-line bg-ink/70 p-1 text-sm backdrop-blur max-lg:hidden"
         >
           {IDS.map((id) => (
             <a
@@ -123,7 +123,7 @@ export function Header({ lang, nav, role, clock, cta, switchLabel, menu }: Props
           <LangSwitch current={lang} label={switchLabel} />
           <a
             href="#contact"
-            className="hidden rounded-full bg-paper px-4 py-1.5 text-sm font-semibold text-ink hover:bg-accent md:block"
+            className="hidden rounded-full bg-paper px-4 py-1.5 text-sm font-semibold text-ink hover:bg-accent lg:block"
           >
             {cta}
           </a>
@@ -133,7 +133,7 @@ export function Header({ lang, nav, role, clock, cta, switchLabel, menu }: Props
             onClick={() => setOpen(true)}
             aria-expanded={open}
             aria-controls="phone-menu"
-            className="grid size-10 place-items-center rounded-full border border-line bg-ink/70 backdrop-blur md:hidden"
+            className="grid size-10 place-items-center rounded-full border border-line bg-ink/70 backdrop-blur lg:hidden"
           >
             <span className="sr-only">{menu.open}</span>
             <span aria-hidden="true" className="flex w-4 flex-col gap-1">
@@ -152,7 +152,7 @@ export function Header({ lang, nav, role, clock, cta, switchLabel, menu }: Props
         aria-modal="true"
         aria-label={menu.open}
         hidden={!open}
-        className="fixed inset-0 z-40 flex flex-col bg-ink px-4 pb-6 pt-3 md:hidden"
+        className="fixed inset-0 z-40 flex flex-col bg-ink px-4 pb-6 pt-3 lg:hidden"
       >
         <div className="flex items-center justify-between">
           <span className="grid size-10 place-items-center rounded-full border border-line font-display text-xs font-bold">

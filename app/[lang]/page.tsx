@@ -181,8 +181,8 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               {/* About */}
               <section id="about" className={`${wrap} py-16 sm:py-24 lg:py-32`}>
                 <Heading>{t.about.title}</Heading>
-                <div className="mt-8 sm:mt-12 grid gap-10 lg:grid-cols-[24rem_1fr] lg:gap-16">
-                  <div className="mx-auto w-full max-w-[13rem] sm:max-w-sm lg:max-w-none">
+                <div className="mt-8 sm:mt-12 grid gap-10 md:grid-cols-[15rem_1fr] md:gap-10 lg:grid-cols-[24rem_1fr] lg:gap-16">
+                  <div className="mx-auto w-full max-w-[13rem] sm:max-w-sm md:max-w-none">
                     <PortraitGL src="/nantanatorn.jpg" alt={t.hero.photoAlt} />
                   </div>
                   <div>
