@@ -4,7 +4,7 @@
     "description": "Full-stack developer who builds complete web applications and adds AI features to them, from LLM and RAG integration to real-time voice."
   },
   "nav": { "about": "About", "work": "Experience", "stack": "Stack", "projects": "Projects", "writing": "Writing", "contact": "Contact" },
-  "header": { "role": "Full-stack developer", "clock": "BKK", "cta": "Contact" },
+  "header": { "role": "Full-stack developer", "clock": "BKK", "cta": "Contact", "menu": "Menu", "close": "Close menu" },
   "hero": {
     "first": "NANTANATORN",
     "last": "BURANACHALERMPONG",

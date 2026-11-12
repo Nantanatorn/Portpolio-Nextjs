@@ -142,10 +142,10 @@ export function mountStars(host: HTMLElement, reduced: boolean) {
     // Keep the cloud in view, placed to one side as the section suits;
     // centred, smaller and dimmer on narrow screens where it sits behind text.
     const narrow = camera.aspect < 1;
-    nebula.update(time, dt, reduced, narrow ? 0.45 : 1);
+    nebula.update(time, dt, reduced, narrow ? 0.28 : 1);
     const halfW = tanHalf * CAMERA_Z * camera.aspect;
     nebula.group.position.set(
-      camera.position.x + nebula.offset * halfW * (narrow ? 0.25 : 1),
+      camera.position.x + nebula.offset * halfW * (narrow ? 0.6 : 1),
       camera.position.y + nebula.lift * tanHalf * CAMERA_Z * (narrow ? 0.4 : 1),
       0,
     );

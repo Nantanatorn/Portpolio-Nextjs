@@ -4,7 +4,7 @@
     "description": "Full-stack developer ที่สร้างเว็บแอปพลิเคชันครบวงจรและเพิ่มความสามารถด้าน AI ตั้งแต่การเชื่อมต่อ LLM และ RAG ไปจนถึงระบบเสียงเรียลไทม์"
   },
   "nav": { "about": "เกี่ยวกับ", "work": "ประสบการณ์", "stack": "ทักษะ", "projects": "ผลงาน", "writing": "บทความ", "contact": "ติดต่อ" },
-  "header": { "role": "Full-stack developer", "clock": "BKK", "cta": "ติดต่อ" },
+  "header": { "role": "Full-stack developer", "clock": "BKK", "cta": "ติดต่อ", "menu": "เมนู", "close": "ปิดเมนู" },
   "hero": {
     "first": "NANTANATORN",
     "last": "BURANACHALERMPONG",

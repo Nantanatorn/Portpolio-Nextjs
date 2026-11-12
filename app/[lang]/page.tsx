@@ -102,6 +102,12 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         clock={t.header.clock}
         cta={t.header.cta}
         switchLabel={t.switchLabel}
+        menu={{
+          open: t.header.menu,
+          close: t.header.close,
+          cv: t.hero.ctaCv,
+          cvHref: CV,
+        }}
       />
 
       <HomeSwitch
@@ -118,7 +124,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                 }}
               >
                 <section
-                  className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-ink/85 via-ink/15 via-35% to-transparent pb-28 pt-28 md:pb-14 group-data-[faded]/desk:invisible"
+                  className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-ink/85 via-ink/15 via-35% to-transparent pb-10 pt-28 md:pb-14 group-data-[faded]/desk:invisible"
                   style={{ opacity: "calc(1 - var(--p, 0) * 3)" }}
                 >
                   <div className={wrap}>
@@ -127,7 +133,9 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                         <span className="size-2 rounded-full bg-emerald-400" />
                         {t.hero.status}
                       </span>
-                      <span className={pill}>{t.hero.location}</span>
+                      <span className={`${pill} max-sm:hidden`}>
+                        {t.hero.location}
+                      </span>
                     </div>
                     {/* With the 3D desk running, the monitor shows the name, so the
               heading stays for screen readers and search only. */}
@@ -139,29 +147,29 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                         {t.hero.last}
                       </span>
                     </h1>
-                    <p className="mt-8 max-w-xl text-lg text-paper/90 sm:text-xl">
+                    <p className="mt-5 max-w-xl text-base text-paper/90 sm:mt-8 sm:text-xl">
                       <strong className="font-semibold text-paper">
                         {t.hero.role}.
                       </strong>{" "}
                       {t.hero.intro}
                     </p>
-                    <div className="mt-8 flex flex-wrap gap-3">
+                    <div className="mt-6 grid grid-cols-2 gap-3 sm:mt-8 sm:flex sm:flex-wrap">
                       <a
                         href="#projects"
-                        className="rounded-full bg-paper px-6 py-3 font-semibold text-ink hover:bg-accent"
+                        className="col-span-2 rounded-full bg-paper px-6 py-3 text-center font-semibold text-ink hover:bg-accent"
                       >
                         {t.hero.ctaWork}
                       </a>
                       <a
                         href="#contact"
-                        className="rounded-full border border-line bg-ink/60 px-6 py-3 font-semibold backdrop-blur hover:border-accent hover:text-accent"
+                        className="rounded-full border border-line bg-ink/60 px-4 py-3 text-center font-semibold backdrop-blur hover:border-accent hover:text-accent sm:px-6"
                       >
                         {t.hero.ctaContact}
                       </a>
                       <a
                         href={CV}
                         download={CV_FILENAME}
-                        className="rounded-full border border-line bg-ink/60 px-6 py-3 font-semibold backdrop-blur hover:border-accent hover:text-accent"
+                        className="rounded-full border border-line bg-ink/60 px-4 py-3 text-center font-semibold backdrop-blur hover:border-accent hover:text-accent sm:px-6"
                       >
                         {t.hero.ctaCv}
                       </a>
@@ -171,10 +179,10 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               </DeskHero>
 
               {/* About */}
-              <section id="about" className={`${wrap} py-24 lg:py-32`}>
+              <section id="about" className={`${wrap} py-16 sm:py-24 lg:py-32`}>
                 <Heading>{t.about.title}</Heading>
-                <div className="mt-12 grid gap-10 lg:grid-cols-[24rem_1fr] lg:gap-16">
-                  <div className="mx-auto w-full max-w-sm lg:max-w-none">
+                <div className="mt-8 sm:mt-12 grid gap-10 lg:grid-cols-[24rem_1fr] lg:gap-16">
+                  <div className="mx-auto w-full max-w-[13rem] sm:max-w-sm lg:max-w-none">
                     <PortraitGL src="/nantanatorn.jpg" alt={t.hero.photoAlt} />
                   </div>
                   <div>
@@ -230,13 +238,13 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               </section>
 
               {/* Experience */}
-              <section id="work" className={`${wrap} py-24 lg:py-32`}>
+              <section id="work" className={`${wrap} py-16 sm:py-24 lg:py-32`}>
                 <Heading>{t.experience.title}</Heading>
-                <ol className="mt-12 ml-1 border-l border-line">
+                <ol className="mt-8 sm:mt-12 ml-1 border-l border-line">
                   {t.experience.items.map((item) => (
                     <li
                       key={item.company}
-                      className="relative grid gap-6 pb-14 pl-6 last:pb-0 sm:pl-10 lg:grid-cols-[18rem_1fr] lg:gap-10"
+                      className="relative grid gap-5 pb-12 pl-5 last:pb-0 sm:gap-6 sm:pb-14 sm:pl-10 lg:grid-cols-[18rem_1fr] lg:gap-10"
                     >
                       <span
                         aria-hidden="true"
@@ -265,7 +273,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                           )}
                         </div>
                       </div>
-                      <div className="rounded-3xl border border-line bg-panel/60 p-6 backdrop-blur sm:p-8">
+                      <div className="rounded-3xl border border-line bg-panel/60 p-5 backdrop-blur sm:p-8">
                         <h4 className="font-display text-xl font-bold sm:text-2xl">
                           {item.role}
                         </h4>
@@ -293,7 +301,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               </section>
 
               {/* Stack */}
-              <section id="stack" className={`${wrap} py-24 lg:py-32`}>
+              <section id="stack" className={`${wrap} py-16 sm:py-24 lg:py-32`}>
                 <Heading>{t.stack.title}</Heading>
                 <StackExplorer groups={t.stack.groups} />
               </section>
@@ -360,7 +368,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               </section>
 
               {/* Writing */}
-              <section id="writing" className={`${wrap} py-24 lg:py-32`}>
+              <section id="writing" className={`${wrap} py-16 sm:py-24 lg:py-32`}>
                 <div className="flex flex-wrap items-end justify-between gap-4">
                   <Heading>{t.writing.title}</Heading>
                   <a
@@ -372,7 +380,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                     {t.writing.more} <span aria-hidden="true">↗</span>
                   </a>
                 </div>
-                <ul className="mt-12 border-t border-line">
+                <ul className="mt-8 sm:mt-12 border-t border-line">
                   {t.writing.items.map((a) => (
                     <li key={a.url} className="border-b border-line">
                       <article className="grid gap-6 py-8 md:grid-cols-[1fr_18rem] md:gap-10 lg:grid-cols-[9rem_1fr_22rem]">
@@ -423,7 +431,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               </section>
 
               {/* Contact */}
-              <section id="contact" className={`${wrap} py-24 lg:py-32`}>
+              <section id="contact" className={`${wrap} py-16 sm:py-24 lg:py-32`}>
                 <Heading>{t.contact.title}</Heading>
                 <p className="mt-8 max-w-xl text-lg text-paper/90">
                   {t.contact.lead}
@@ -443,7 +451,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                     {t.contact.cvLabel}
                   </a>
                 </div>
-                <dl className="mt-12 grid gap-6 sm:grid-cols-3">
+                <dl className="mt-8 sm:mt-12 grid gap-6 sm:grid-cols-3">
                   <div>
                     <dt className="text-sm text-mist">
                       {t.contact.phoneLabel}
@@ -482,7 +490,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               </section>
             </main>
 
-            <footer className="border-t border-line/60 pb-24 pt-8 text-center text-sm text-mist md:pb-8">
+            <footer className="border-t border-line/60 pb-8 pt-8 text-center text-sm text-mist">
               {t.footer}
             </footer>
           </>

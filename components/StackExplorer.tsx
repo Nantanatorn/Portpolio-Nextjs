@@ -82,7 +82,7 @@ export function StackExplorer({
 
   if (!cloud) return list;
   return (
-    <div className="mt-12 grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+    <div className="mt-8 sm:mt-12 grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
       <div className="hidden lg:block">
         <StackCloud words={words} active={active} onHover={setActive} />
       </div>

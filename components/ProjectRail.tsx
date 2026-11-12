@@ -127,7 +127,7 @@ export function ProjectRail({
 
   if (!pinned) {
     return (
-      <div className="py-24 lg:py-32">
+      <div className="py-16 sm:py-24 lg:py-32">
         {header(hints.swipe)}
         <div className="mt-12">
           <DragScroller>{children}</DragScroller>
@@ -144,7 +144,7 @@ export function ProjectRail({
           ref={rail}
           onFocusCapture={onFocus}
           style={{ paddingInline: EDGE }}
-          className="relative mt-12 flex gap-5 will-change-transform"
+          className="relative mt-8 sm:mt-12 flex gap-5 will-change-transform"
         >
           {children}
         </div>
