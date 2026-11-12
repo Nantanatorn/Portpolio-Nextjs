@@ -37,6 +37,9 @@ function canvasTexture(w: number, h: number) {
 
 type Seg = [string, keyof typeof C];
 
+/** Height of the editor tab bar, in canvas px (canvas width 512). */
+export const TAB_PX = 48;
+
 // A small RAG lookup, in the spirit of the owner's own projects.
 const CODE: Seg[][] = [
   [["// rag/answer.ts", "dim"]],
@@ -68,32 +71,25 @@ const CODE: Seg[][] = [
   [],
 ];
 
+// The code scrolls by moving the texture window (offset), not by redrawing:
+// the canvas holds three copies of the snippet and is uploaded once. The tab
+// bar is its own small texture, laid over the top of the screen.
 export function createCodeTexture(width: number, height: number) {
   const W = 512;
-  const H = Math.round((W * height) / width);
-  const { ctx, texture } = canvasTexture(W, H);
+  const VIEW = Math.round((W * height) / width); // visible height in px
   const LINE = 30;
-  const TOP = 64;
   const block = CODE.length * LINE;
-
-  let offset = 0;
-  let last = -1;
+  const H = block * 3;
+  const { ctx, texture } = canvasTexture(W, H);
+  const tab = canvasTexture(W, TAB_PX);
 
   function draw() {
     const mono = cssFont("--font-jetbrains", "monospace");
     ctx.fillStyle = C.bg;
     ctx.fillRect(0, 0, W, H);
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.rect(0, TOP - 4, W, H - TOP + 4);
-    ctx.clip();
     ctx.font = `500 17px ${mono}`;
-    const first = Math.floor(offset / LINE);
-    const rows = Math.ceil((H - TOP) / LINE) + 1;
-    for (let r = 0; r < rows; r++) {
-      const i = first + r;
-      const y = TOP + 20 + r * LINE - (offset % LINE);
+    for (let i = 0; i * LINE < H; i++) {
+      const y = TAB_PX + 20 + i * LINE;
       const line = CODE[i % CODE.length];
       ctx.fillStyle = C.dim;
       ctx.textAlign = "right";
@@ -106,39 +102,42 @@ export function createCodeTexture(width: number, height: number) {
         x += ctx.measureText(text).width;
       }
     }
-    ctx.restore();
-
-    // Tab bar drawn last so code scrolls underneath it.
-    ctx.fillStyle = C.bar;
-    ctx.fillRect(0, 0, W, 46);
-    ctx.fillStyle = C.bg;
-    ctx.fillRect(14, 10, 150, 36);
-    ctx.fillStyle = C.accent;
-    ctx.fillRect(14, 10, 150, 2);
-    ctx.font = `500 16px ${mono}`;
-    ctx.fillStyle = C.paper;
-    ctx.fillText("answer.ts", 30, 34);
-    ctx.fillStyle = C.mist;
-    ctx.fillText("session.ts", 186, 34);
     ctx.fillStyle = C.line;
-    ctx.fillRect(0, 46, W, 2);
-    ctx.fillRect(48, 48, 1, H);
-
+    ctx.fillRect(48, 0, 1, H);
     texture.needsUpdate = true;
+
+    const t = tab.ctx;
+    t.fillStyle = C.bar;
+    t.fillRect(0, 0, W, TAB_PX);
+    t.fillStyle = C.bg;
+    t.fillRect(14, 10, 150, 36);
+    t.fillStyle = C.accent;
+    t.fillRect(14, 10, 150, 2);
+    t.font = `500 16px ${mono}`;
+    t.fillStyle = C.paper;
+    t.fillText("answer.ts", 30, 34);
+    t.fillStyle = C.mist;
+    t.fillText("session.ts", 186, 34);
+    t.fillStyle = C.line;
+    t.fillRect(0, TAB_PX - 2, W, 2);
+    tab.texture.needsUpdate = true;
   }
 
   draw();
   document.fonts?.ready.then(draw).catch(() => {});
 
+  // flipY: v = 1 is the canvas top. Show a VIEW-tall window that slides down.
+  texture.repeat.set(1, VIEW / H);
+  let scroll = 0;
+  let last = -1;
   function update(time: number) {
-    if (last < 0) last = time;
-    if (time - last < 60) return;
-    offset = (offset + ((time - last) / 1000) * 14) % block;
+    const dt = last < 0 ? 0 : (time - last) / 1000;
     last = time;
-    draw();
+    scroll = (scroll + dt * 14) % block;
+    texture.offset.y = 1 - VIEW / H - scroll / H;
   }
 
-  return { texture, update };
+  return { texture, tab: tab.texture, update };
 }
 
 const LOG_LINES: Seg[][] = [

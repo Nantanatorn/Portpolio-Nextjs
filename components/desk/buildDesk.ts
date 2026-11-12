@@ -136,7 +136,7 @@ function screenMesh(width: number, height: number, texture: THREE.Texture) {
 }
 
 // Portrait monitor to the right, turned towards the chair.
-function buildPortraitMonitor(group: THREE.Group, texture: THREE.Texture) {
+function buildPortraitMonitor(group: THREE.Group, texture: THREE.Texture, tab?: THREE.Texture) {
   const body = mat(PALETTE.monitor, { roughness: 0.5 });
   const stand = mat(PALETTE.stand, { metalness: 0.4, roughness: 0.45 });
   const { width, height } = PORTRAIT;
@@ -149,6 +149,11 @@ function buildPortraitMonitor(group: THREE.Group, texture: THREE.Texture) {
   mon.add(at(box(0.04, cy, 0.035, stand), 0, cy / 2, -0.05));
   mon.add(at(box(width + 0.04, height + 0.04, 0.03, body), 0, cy, -0.016));
   mon.add(at(screenMesh(width, height, texture), 0, cy, 0.0));
+  if (tab) {
+    // Editor tab bar laid over the top of the scrolling code (48px of 512).
+    const th = (width * 48) / 512;
+    mon.add(at(screenMesh(width, th, tab), 0, cy + height / 2 - th / 2, 0.001));
+  }
   group.add(mon);
 
   const glow = new THREE.PointLight(0x7cc4ff, 0.9, 1.3, 2);
@@ -185,6 +190,7 @@ function buildLaptop(group: THREE.Group, texture: THREE.Texture) {
   const glow = new THREE.PointLight(0x7cc4ff, 0.6, 0.9, 2);
   glow.position.set(-0.55, TOP + 0.15, 0.15);
   group.add(glow);
+  return { lid, screenY: lh / 2 };
 }
 
 function buildKeyboard(group: THREE.Group) {
@@ -313,14 +319,15 @@ function buildPlant(group: THREE.Group) {
 export function buildDesk(screens: {
   main: THREE.Texture;
   code: THREE.Texture;
+  codeTab?: THREE.Texture;
   logs: THREE.Texture;
 }) {
   const group = new THREE.Group();
   buildRoom(group);
   buildDeskBody(group);
   buildMonitor(group, screens.main);
-  buildPortraitMonitor(group, screens.code);
-  buildLaptop(group, screens.logs);
+  buildPortraitMonitor(group, screens.code, screens.codeTab);
+  const laptop = buildLaptop(group, screens.logs);
   buildKeyboard(group);
   buildMug(group);
   buildPlant(group);
@@ -339,7 +346,7 @@ export function buildDesk(screens: {
   moon.target.position.set(0.4, TOP, 0.2);
   group.add(moon, moon.target);
 
-  return { group, lampLight, skyColor: PALETTE.sky };
+  return { group, lampLight, laptop, skyColor: PALETTE.sky };
 }
 
 // Everything visible through the window lives behind the wall.

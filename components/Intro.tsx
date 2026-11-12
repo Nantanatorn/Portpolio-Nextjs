@@ -1,52 +1,66 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { hasSignal } from "./desk/signals";
 import { INTRO_KEY } from "./introKey";
 
-// Greetings around the world, ending in the page's language.
-const WORLD = [
-  "你好",
-  "こんにちは",
-  "안녕하세요",
-  "Bonjour",
-  "Hola",
-  "Ciao",
-  "Hallo",
-  "Olá",
-  "Привет",
-  "Xin chào",
-  "नमस्ते",
+// Opening screen styled as a Linux boot: kernel lines, systemd "[  OK  ]"
+// units (the owner's dev stack starting up), then a login prompt. The last
+// units wait for real loading — fonts, three.js, the desk's first frame — and
+// show systemd's "A start job is running" line meanwhile.
+
+type Gate = "fonts" | "loaded" | "ready";
+type Line =
+  | { kind: "kernel"; text: string }
+  | { kind: "ok"; text: string; gate?: Gate; unit?: string };
+
+// Services from the owner's stack, as systemd would start them: [unit, description].
+const SERVICES: [string, string][] = [
+  ["NetworkManager.service", "Network Manager"],
+  ["sshd.service", "OpenSSH server daemon"],
+  ["home-nantanatorn-projects.mount", "/home/nantanatorn/projects"],
+  ["docker.service", "Docker Application Container Engine"],
+  ["postgresql.service", "PostgreSQL database server"],
+  ["mssql-server.service", "Microsoft SQL Server"],
+  ["mongod.service", "MongoDB Atlas sync"],
+  ["node-api.service", "Node.js API on :3000"],
+  ["dotnet-api.service", "ASP.NET Core API on :5000"],
+  ["ng-serve.service", "Angular dev server on :4200"],
+  ["gemini-live.service", "Gemini Live WebSocket bridge"],
+  ["rag-indexer.service", "RAG embeddings indexer"],
 ];
-const WORDS = {
-  th: ["Hello", ...WORLD, "สวัสดี"],
-  en: ["สวัสดี", ...WORLD, "Hello"],
-} as const;
 
-const WORD_MS = 170;
-// Every greeting gets its turn, and the last one stays up for a beat.
-const MIN_MS = WORDS.en.length * WORD_MS + 450;
+const UNIT: Record<Gate, string> = {
+  fonts: "fonts.target",
+  loaded: "three.service",
+  ready: "desk.service",
+};
+
+function script(): Line[] {
+  return [
+    { kind: "kernel", text: "[    0.000000] Booting nantanatorn-portfolio 26.11 (x86_64)" },
+    { kind: "kernel", text: "[    0.041293] Detected 2 internships, 5 projects, 1 developer" },
+    { kind: "kernel", text: "[    0.118400] Mounting /home/nantanatorn ..." },
+    { kind: "ok", text: "Reached target Local File Systems." },
+    { kind: "ok", text: "Started Time Sync (Asia/Bangkok)." },
+    ...SERVICES.map(([unit, desc]): Line => ({ kind: "ok", text: `Started ${unit} - `, unit: `${desc}.` })),
+    { kind: "ok", text: "Reached target Multi-User System." },
+    { kind: "ok", text: "Reached target Fonts.", gate: "fonts" },
+    { kind: "ok", text: "Loaded three.js renderer.", gate: "loaded" },
+    { kind: "ok", text: "Started desk.service — 3D workspace.", gate: "ready" },
+  ];
+}
+
+const TICK_MS = 55;
 const MAX_MS = 6000;
+const USER = "guest";
 
-/**
- * Opening screen, once per session. The counter follows real loading
- * (fonts, three.js, the desk's first frame), then the screen slides up to
- * reveal the desk. Skipped with reduced motion; hides itself without JS.
- */
-export function Intro({
-  lang,
-  name,
-  role,
-}: {
-  lang: "th" | "en";
-  name: string;
-  role: string;
-}) {
-  const words = WORDS[lang];
-  const [word, setWord] = useState(0);
+export function Intro() {
+  const lines = useMemo(() => script(), []);
+  const [shown, setShown] = useState(0);
+  const [waiting, setWaiting] = useState<{ gate: Gate; secs: number; frame: number } | null>(null);
+  const [typed, setTyped] = useState(-1); // -1: no login prompt yet
   const root = useRef<HTMLDivElement>(null);
-  const count = useRef<HTMLSpanElement>(null);
-  const bar = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = root.current;
@@ -60,35 +74,32 @@ export function Intro({
       return;
     }
 
-    // JS is running, so the no-JS failsafe isn't needed.
-    el.style.animation = "none";
+    el.style.animation = "none"; // JS runs, so the no-JS failsafe isn't needed
     const html = document.documentElement;
     html.style.overflow = "hidden";
 
-    const start = performance.now();
-    let target = 0.08;
-    let shown = 0;
-    let raf = 0;
-    let finished = false;
-    const bump = (v: number) => (target = Math.max(target, v));
-
-    document.fonts?.ready.then(() => bump(0.35)).catch(() => bump(0.35));
-    const onLoaded = () => bump(0.7);
-    const onReady = () => bump(1);
-    if (hasSignal("loaded")) onLoaded();
-    if (hasSignal("ready")) onReady();
+    const gates: Record<Gate, boolean> = {
+      fonts: false,
+      loaded: hasSignal("loaded"),
+      ready: hasSignal("ready"),
+    };
+    document.fonts?.ready.then(() => (gates.fonts = true)).catch(() => (gates.fonts = true));
+    const onLoaded = () => (gates.loaded = true);
+    const onReady = () => (gates.ready = true);
     window.addEventListener("desk:loaded", onLoaded);
     window.addEventListener("desk:ready", onReady);
-    const cap = setTimeout(onReady, MAX_MS);
+    const start = performance.now();
 
-    const wordTimer = setInterval(
-      () => setWord((w) => Math.min(w + 1, words.length - 1)),
-      WORD_MS,
-    );
-
+    let index = 0;
+    let chars = -1;
+    let hold = 0;
+    let finished = false;
     let hideTimer = 0;
+    let frame = 0;
+
     const finish = () => {
       finished = true;
+      clearInterval(timer);
       try {
         sessionStorage.setItem(INTRO_KEY, "1");
       } catch {}
@@ -98,82 +109,79 @@ export function Intro({
       hideTimer = window.setTimeout(() => (el.style.display = "none"), 1000);
     };
 
-    let prev = start;
-    const tick = (now: number) => {
-      // Time-based easing with a minimum speed, so a slow frame rate (the
-      // desk compiling shaders underneath) can't leave it stuck near 100.
-      const dt = Math.min(0.1, (now - prev) / 1000);
-      prev = now;
-      const ease = (target - shown) * (1 - Math.exp(-dt * 5));
-      shown = Math.min(target, shown + Math.max(ease, dt * 0.3));
-      if (target - shown < 0.004) shown = target;
-      if (count.current) {
-        count.current.textContent = String(Math.round(shown * 100)).padStart(3, "0");
-      }
-      if (bar.current) bar.current.style.transform = `scaleX(${shown})`;
-      if (shown >= 1 && now - start >= MIN_MS) {
-        finish();
+    const timer = window.setInterval(() => {
+      const elapsed = performance.now() - start;
+      if (elapsed > MAX_MS) gates.fonts = gates.loaded = gates.ready = true;
+
+      if (index < lines.length) {
+        const line = lines[index];
+        if (line.kind === "ok" && line.gate && !gates[line.gate]) {
+          frame++;
+          setWaiting({ gate: line.gate, secs: Math.floor(elapsed / 1000), frame });
+          return;
+        }
+        setWaiting(null);
+        index++;
+        setShown(index);
         return;
       }
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
+      // Login prompt: type the user name, then hold a beat and go.
+      if (chars < USER.length) {
+        chars++;
+        setTyped(chars);
+        return;
+      }
+      if (++hold >= 6) finish();
+    }, TICK_MS);
 
     return () => {
-      cancelAnimationFrame(raf);
-      clearTimeout(cap);
+      clearInterval(timer);
       clearTimeout(hideTimer);
-      clearInterval(wordTimer);
       window.removeEventListener("desk:loaded", onLoaded);
       window.removeEventListener("desk:ready", onReady);
       if (!finished) html.style.overflow = "";
     };
-  }, [words.length]);
+  }, [lines]);
+
+  // systemd's bouncing "***" while a start job waits.
+  const stars = (f: number) => {
+    const pos = [0, 1, 2, 3, 2, 1][f % 6];
+    return " ".repeat(pos) + "***" + " ".repeat(3 - pos);
+  };
 
   return (
     <div
       ref={root}
       aria-hidden="true"
-      className="intro fixed inset-0 z-50 flex flex-col bg-ink px-4 pb-8 pt-5 sm:px-6"
+      className="intro fixed inset-0 z-50 flex flex-col justify-end overflow-hidden bg-[#07090d] px-4 pb-6 pt-5 font-mono text-[11px] leading-[1.65] text-mist sm:px-6 sm:text-[13px]"
     >
-      <div className="leading-tight">
-        <span className="block text-sm font-semibold">{name}</span>
-        <span className="block font-mono text-[11px] text-mist">{role}</span>
-      </div>
-
-      <div className="relative grid flex-1 place-items-center">
-        {words.map((w, i) => (
-          <p
-            key={w}
-            className={`absolute flex items-center gap-[0.12em] font-sans text-[clamp(2.6rem,8vw,5.8rem)] font-semibold leading-none transition-[opacity,filter,translate] duration-200 ease-out ${
-              i === word
-                ? "translate-y-0 opacity-100 blur-0"
-                : i < word
-                  ? "-translate-y-3 opacity-0 blur-md"
-                  : "translate-y-3 opacity-0 blur-md"
-            }`}
-          >
-            {w}
-            <span className="cursor-blink inline-block h-[0.82em] w-[0.42em] translate-y-[0.04em] bg-accent" />
+      {lines.slice(0, shown).map((line, i) =>
+        line.kind === "kernel" ? (
+          <p key={i} className="whitespace-pre-wrap">{line.text}</p>
+        ) : (
+          <p key={i} className="whitespace-pre-wrap">
+            [<span className="text-emerald-400">{"  OK  "}</span>] {line.text}
+            {line.unit && <span className="text-paper">{line.unit}</span>}
           </p>
-        ))}
-      </div>
-
-      <div className="flex items-end gap-6">
-        <div className="relative mb-3 h-px flex-1 bg-line">
-          <div
-            ref={bar}
-            className="absolute inset-0 origin-left bg-accent"
-            style={{ transform: "scaleX(0)" }}
-          />
-        </div>
-        <span
-          ref={count}
-          className="font-display text-[clamp(3.5rem,11vw,9rem)] font-extrabold leading-[0.8] tabular-nums tracking-tight"
-        >
-          000
-        </span>
-      </div>
+        ),
+      )}
+      {waiting && (
+        <p className="whitespace-pre">
+          [<span className="text-red-400">{stars(waiting.frame)}</span>] A start job is running
+          for {UNIT[waiting.gate]} ({waiting.secs}s / {MAX_MS / 1000}s)
+        </p>
+      )}
+      {typed >= 0 && (
+        <>
+          <p className="mt-4 text-paper">
+            nantanatorn-portfolio <span className="text-mist">tty1</span>
+          </p>
+          <p className="mt-3 text-paper">
+            <span className="text-accent">nantanatorn-portfolio login:</span> {USER.slice(0, typed)}
+            <span className="cursor-blink ml-0.5 inline-block h-[1.1em] w-[0.55em] translate-y-[0.2em] bg-accent" />
+          </p>
+        </>
+      )}
     </div>
   );
 }

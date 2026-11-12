@@ -119,11 +119,11 @@
         "name": "VillageClubHouse",
         "mark": "CLUB",
         "year": "2025",
-        "summary": "A booking app for village clubhouse facilities such as badminton courts and meeting rooms. It checks available time slots and prevents double-booking. Admins review and approve requests.",
+        "summary": "A booking app for a village sports club. Members pick a facility and time slot, pay a deposit and track their bookings. Staff verify payments, and admins manage staff, facilities and time slots. Role-based access with JWT.",
         "stack": ["Angular", ".NET", "MSSQL"],
         "repo": "https://github.com/Nantanatorn/VillageClubHouse",
-        "image": "",
-        "imageAlt": ""
+        "image": "/projects/villageclubhouse.webp",
+        "imageAlt": "Reservation page listing club facilities such as the gym, tennis court and badminton court, each with a Book Now button"
       },
       {
         "name": "Commonfee-management",

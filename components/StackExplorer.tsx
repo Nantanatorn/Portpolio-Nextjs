@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StackCloud } from "./StackCloud";
 
 type Group = { name: string; items: string[] };
@@ -12,20 +12,30 @@ const TAG =
  * Skill cloud plus the grouped list. Pointing at a group (or at any word in
  * the cloud) highlights that group in both: its heading and tags turn accent,
  * and its words in the cloud light up one after another while the rest dim.
+ * The active group is also announced as a "stack:active" window event, which
+ * the 3D room uses to light up books on its shelf. With cloud={false} only
+ * the list renders, without its own card (for a panel that already is one).
  */
-export function StackExplorer({ groups }: { groups: Group[] }) {
+export function StackExplorer({
+  groups,
+  cloud = true,
+}: {
+  groups: Group[];
+  cloud?: boolean;
+}) {
   const [active, setActive] = useState<number | null>(null);
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("stack:active", { detail: active }));
+  }, [active]);
   const words = groups.flatMap((g, group) =>
     g.items.map((text, order) => ({ text, group, order })),
   );
 
-  return (
-    <div className="mt-12 grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-      <div className="hidden lg:block">
-        <StackCloud words={words} active={active} onHover={setActive} />
-      </div>
+  const list = (
       <div
-        className="rounded-3xl border border-line bg-panel/60 p-6 backdrop-blur sm:p-8"
+        className={
+          cloud ? "rounded-3xl border border-line bg-panel/60 p-6 backdrop-blur sm:p-8" : ""
+        }
         onPointerLeave={() => setActive(null)}
       >
         {groups.map((g, i) => {
@@ -68,6 +78,15 @@ export function StackExplorer({ groups }: { groups: Group[] }) {
           );
         })}
       </div>
+  );
+
+  if (!cloud) return list;
+  return (
+    <div className="mt-12 grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+      <div className="hidden lg:block">
+        <StackCloud words={words} active={active} onHover={setActive} />
+      </div>
+      {list}
     </div>
   );
 }

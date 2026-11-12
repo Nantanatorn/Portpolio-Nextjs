@@ -37,10 +37,11 @@ export function mountDesk(
   } catch {
     return null;
   }
-  const pixelRatio = Math.min(window.devicePixelRatio, coarse ? 1.5 : 2);
+  const pixelRatio = Math.min(window.devicePixelRatio, 1.5);
   renderer.setPixelRatio(pixelRatio);
   renderer.shadowMap.enabled = !coarse;
   renderer.shadowMap.type = THREE.PCFShadowMap;
+  renderer.shadowMap.autoUpdate = false; // static scene: draw shadows once
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
   const canvas = renderer.domElement;
@@ -56,6 +57,7 @@ export function mountDesk(
   const desk = buildDesk({
     main: screenTex.texture,
     code: codeTex.texture,
+    codeTab: codeTex.tab,
     logs: logTex.texture,
   });
   scene.background = new THREE.Color(desk.skyColor);
@@ -105,8 +107,15 @@ export function mountDesk(
 
   let shown = false;
   let faded = false;
+  // The camera eases towards the scroll position so wheel steps don't jump.
+  let p = progress();
+  let last = -1;
   const render = (time: number) => {
-    const p = progress();
+    const dt = last < 0 ? 0 : Math.min(0.1, (time - last) / 1000);
+    last = time;
+    const target = progress();
+    p += (target - p) * (1 - Math.exp(-dt * 4.5));
+    if (Math.abs(target - p) < 0.0005) p = target;
     track.style.setProperty("--p", p.toFixed(3));
     if (p >= FADED_AT !== faded) {
       faded = !faded;
@@ -155,6 +164,7 @@ export function mountDesk(
     camera.aspect = size.w / size.h;
     camera.updateProjectionMatrix();
     layout();
+    renderer.shadowMap.needsUpdate = true;
   };
   resize();
   const observer = new ResizeObserver(resize);
@@ -189,6 +199,7 @@ export function mountDesk(
     });
     desk.lampLight.shadow.map?.dispose();
     screens.forEach((s) => s.texture.dispose());
+    codeTex.tab.dispose();
     renderer.dispose();
     canvas.remove();
   };

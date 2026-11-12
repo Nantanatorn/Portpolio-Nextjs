@@ -46,7 +46,6 @@ export default async function RootLayout({
 }: LayoutProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
-  const t = await getDictionary(lang);
 
   return (
     <html
@@ -65,7 +64,7 @@ export default async function RootLayout({
         />
       </head>
       <body>
-        <Intro lang={lang} name="Nantanatorn B." role={t.header.role} />
+        <Intro />
         <Cursor />
         <StarField />
         {children}

@@ -42,8 +42,17 @@ function fit(
   return size;
 }
 
-// A terminal on the monitor that prints the owner's name.
-export function createScreenTexture(text: ScreenText) {
+export interface ContactOutput {
+  command: string;
+  rows: [label: string, value: string][];
+}
+
+const TYPE_MS = 45; // per command character
+const ROW_MS = 160; // per output row
+
+// A terminal on the monitor that prints the owner's name. With a contact
+// output, `setContact(true)` clears it and types the contact command instead.
+export function createScreenTexture(text: ScreenText, contact?: ContactOutput) {
   const canvas = document.createElement("canvas");
   canvas.width = W;
   canvas.height = H;
@@ -53,19 +62,17 @@ export function createScreenTexture(text: ScreenText) {
   texture.anisotropy = 4;
 
   let cursorOn = true;
+  let contactOn = false;
+  let since = 0;
+  let typed = 0;
+  let rows = 0;
 
-  function draw() {
-    const display = cssFont("--font-unbounded", "sans-serif");
-    const thai = cssFont("--font-anuphan", "sans-serif");
-    const mono = cssFont("--font-jetbrains", "monospace");
-
+  function frame(mono: string) {
     const bg = ctx.createLinearGradient(0, 0, 0, H);
     bg.addColorStop(0, "#0f1620");
     bg.addColorStop(1, COLORS.bg);
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, W, H);
-
-    // Title bar with window buttons.
     ctx.fillStyle = COLORS.bar;
     ctx.fillRect(0, 0, W, 44);
     ctx.fillStyle = COLORS.line;
@@ -83,6 +90,51 @@ export function createScreenTexture(text: ScreenText) {
     ctx.textAlign = "center";
     ctx.fillText("~/portfolio — zsh", W / 2, 29);
     ctx.textAlign = "left";
+  }
+
+  function prompt(y: number, after: string, cursor: boolean, mono: string) {
+    const left = 56;
+    ctx.font = `500 26px ${mono}`;
+    ctx.fillStyle = COLORS.accent;
+    ctx.fillText("~/portfolio", left, y);
+    const x = left + ctx.measureText("~/portfolio ").width;
+    ctx.fillStyle = COLORS.mist;
+    ctx.fillText("$", x, y);
+    ctx.fillStyle = COLORS.paper;
+    const cx = x + ctx.measureText("$ ").width;
+    ctx.fillText(after, cx, y);
+    if (cursor && cursorOn) {
+      ctx.fillRect(cx + ctx.measureText(after).width + 2, y - 22, 14, 28);
+    }
+  }
+
+  function drawContact() {
+    if (!contact) return;
+    const mono = cssFont("--font-jetbrains", "monospace");
+    frame(mono);
+    const done = typed >= contact.command.length;
+    let y = 110;
+    prompt(y, contact.command.slice(0, typed), !done, mono);
+    y += 30;
+    ctx.font = `500 30px ${mono}`;
+    contact.rows.slice(0, rows).forEach(([label, value]) => {
+      y += 52;
+      ctx.fillStyle = COLORS.mist;
+      ctx.fillText(label.padEnd(8, " "), 84, y);
+      ctx.fillStyle = label === "status" ? "#7ee0a8" : COLORS.paper;
+      ctx.fillText(value, 84 + ctx.measureText("        ").width, y);
+    });
+    if (done && rows >= contact.rows.length) prompt(y + 72, "", true, mono);
+    texture.needsUpdate = true;
+  }
+
+  function draw() {
+    if (contactOn) return drawContact();
+    const display = cssFont("--font-unbounded", "sans-serif");
+    const thai = cssFont("--font-anuphan", "sans-serif");
+    const mono = cssFont("--font-jetbrains", "monospace");
+
+    frame(mono);
 
     const left = 56;
     const inner = W - left * 2;
@@ -146,12 +198,38 @@ export function createScreenTexture(text: ScreenText) {
   document.fonts?.ready.then(draw).catch(() => {});
 
   let lastBlink = 0;
+  let now = 0;
   function update(time: number) {
-    if (time - lastBlink < 530) return;
-    lastBlink = time;
-    cursorOn = !cursorOn;
+    now = time;
+    let dirty = false;
+    if (contactOn && contact) {
+      const t = time - since;
+      const nextTyped = Math.min(contact.command.length, Math.floor(t / TYPE_MS));
+      const afterCmd = t - contact.command.length * TYPE_MS - 250;
+      const nextRows = afterCmd > 0 ? Math.min(contact.rows.length, Math.floor(afterCmd / ROW_MS) + 1) : 0;
+      if (nextTyped !== typed || nextRows !== rows) {
+        typed = nextTyped;
+        rows = nextRows;
+        dirty = true;
+      }
+    }
+    if (time - lastBlink >= 530) {
+      lastBlink = time;
+      cursorOn = !cursorOn;
+      dirty = true;
+    }
+    if (dirty) draw();
+  }
+
+  /** Switch between the name screen and the typed contact output. */
+  function setContact(on: boolean) {
+    if (!contact || on === contactOn) return;
+    contactOn = on;
+    since = now;
+    typed = 0;
+    rows = 0;
     draw();
   }
 
-  return { texture, update };
+  return { texture, update, setContact };
 }

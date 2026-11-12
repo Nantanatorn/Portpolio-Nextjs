@@ -65,7 +65,10 @@ export function Cursor() {
         ringPos.y = pos.y;
         show(true);
       }
-      const over = !!(e.target as Element | null)?.closest?.(INTERACTIVE);
+      // 3D scenes set [data-cursor-hover] on <html> over clickable objects.
+      const over =
+        !!(e.target as Element | null)?.closest?.(INTERACTIVE) ||
+        html.hasAttribute("data-cursor-hover");
       if (over !== hovering) {
         hovering = over;
         updateScale();
