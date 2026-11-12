@@ -133,6 +133,13 @@ html[data-reveal] [data-shown] .reveal-char[data-last]::after {
   }
 }
 
+/* On room-capable screens the server-rendered classic page waits hidden
+   until the client swaps in the 3D room (HomeSwitch clears data-room if it
+   falls back to classic, e.g. without WebGL). */
+html[data-room] [data-home="classic"] {
+  visibility: hidden;
+}
+
 /* Opening screen. Without JS it fades away on its own after a few seconds. */
 .intro {
   animation: intro-failsafe 0.6s ease 5s forwards;

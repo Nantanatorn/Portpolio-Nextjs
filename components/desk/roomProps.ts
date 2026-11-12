@@ -368,6 +368,8 @@ export interface AboutInfo {
   period: string;
   gpa: string;
   logo: string;
+  /** Photo of the real diploma (width × height in px), used instead of the drawn one. */
+  diploma?: { src: string; width: number; height: number };
 }
 
 /** Centre of the two frames on the back wall, left of the desk. */
@@ -450,7 +452,24 @@ function buildAboutWall(group: THREE.Group, info: AboutInfo) {
     img.src = info.logo;
   }
   const dw = 0.78;
-  const diploma = frame(dw, dw * (H / W), new THREE.MeshStandardMaterial({ map: texture, roughness: 0.8 }));
+  let diplomaMat: THREE.MeshStandardMaterial;
+  let dh = dw * (H / W);
+  if (info.diploma) {
+    // The real diploma, photographed and cropped to the sheet.
+    const d = info.diploma;
+    dh = dw * (d.height / d.width);
+    diplomaMat = new THREE.MeshStandardMaterial({ roughness: 0.85 });
+    new THREE.TextureLoader().load(d.src, (t) => {
+      t.colorSpace = THREE.SRGBColorSpace;
+      t.anisotropy = 4;
+      textures.push(t);
+      diplomaMat.map = t;
+      diplomaMat.needsUpdate = true;
+    });
+  } else {
+    diplomaMat = new THREE.MeshStandardMaterial({ map: texture, roughness: 0.8 });
+  }
+  const diploma = frame(dw, dh, diplomaMat);
   diploma.position.set(ABOUT_WALL.x + 0.3, ABOUT_WALL.y - 0.02, ABOUT_WALL.z);
   diploma.rotation.z = -0.01;
 

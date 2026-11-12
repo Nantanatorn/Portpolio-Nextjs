@@ -103,7 +103,8 @@ export function Intro() {
       try {
         sessionStorage.setItem(INTRO_KEY, "1");
       } catch {}
-      window.scrollTo({ top: 0, behavior: "instant" });
+      // Start at the top, unless the link asked for a section.
+      if (!location.hash) window.scrollTo({ top: 0, behavior: "instant" });
       html.style.overflow = "";
       el.setAttribute("data-exit", "");
       hideTimer = window.setTimeout(() => (el.style.display = "none"), 1000);

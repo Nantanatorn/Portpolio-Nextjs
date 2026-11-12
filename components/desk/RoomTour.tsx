@@ -69,6 +69,12 @@ export function RoomTour({
       history.replaceState(null, "", `#${id}`);
     };
     document.addEventListener("click", onClick);
+    const id = location.hash.slice(1);
+    const stage = id ? document.getElementById(id) : null;
+    if (stage && id !== "top" && stageRefs.current.includes(stage)) {
+      const run = stage.offsetHeight - window.innerHeight;
+      window.scrollTo({ top: stage.offsetTop + Math.max(0, run) * 0.55, behavior: "instant" });
+    }
     return () => document.removeEventListener("click", onClick);
   }, []);
 

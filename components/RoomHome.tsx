@@ -1,16 +1,11 @@
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import { CvViewer } from "@/components/desk/CvViewer";
 import { RoomProjects } from "@/components/desk/RoomProjects";
 import { RoomTour } from "@/components/desk/RoomTour";
-import { Header } from "@/components/Header";
 import { StackExplorer } from "@/components/StackExplorer";
-import { getDictionary, hasLocale } from "../../dictionaries";
+import type { Dictionary, Locale } from "@/app/[lang]/dictionaries";
 
-// Prototype of the whole page as one 3D room. Not linked from the site.
-export const metadata: Metadata = {
-  robots: { index: false, follow: false },
-};
+// The home page on desktop: the whole page as one 3D room the camera tours,
+// with a glass panel of content per corner.
 
 const EMAIL = "Nantanatorns.4210@gmail.com";
 const PHONE = "(+66) 96-003-4449";
@@ -25,12 +20,7 @@ const tag =
 const button =
   "inline-flex items-center gap-2 rounded-full border border-line bg-ink/60 px-4 py-2 text-sm font-semibold hover:border-accent hover:text-accent";
 
-export default async function RoomPrototype({
-  params,
-}: PageProps<"/[lang]/lab/room">) {
-  const { lang } = await params;
-  if (!hasLocale(lang)) notFound();
-  const t = await getDictionary(lang);
+export function RoomHome({ t, lang }: { t: Dictionary; lang: Locale }) {
   const article = t.writing.items[0];
 
   const data = {
@@ -44,7 +34,12 @@ export default async function RoomPrototype({
     groups: t.stack.groups,
     projects: t.work.items.map((p) => ({ name: p.name, image: p.image })),
     article: article
-      ? { title: article.title, date: article.date, author: "Nantanatorns", image: article.image }
+      ? {
+          title: article.title,
+          date: article.date,
+          author: "Nantanatorns",
+          image: article.image,
+        }
       : undefined,
     contact: {
       card: {
@@ -74,19 +69,12 @@ export default async function RoomPrototype({
       period: t.about.education.period,
       gpa: t.about.stats.find((x) => x.value.includes("."))?.value ?? "",
       logo: "/logos/kasetsart.png",
+      diploma: { src: "/diploma-ku.webp", width: 1280, height: 908 },
     },
   };
 
   return (
     <>
-      <Header
-        lang={lang}
-        nav={t.nav}
-        role={t.header.role}
-        clock={t.header.clock}
-        cta={t.header.cta}
-        switchLabel={t.switchLabel}
-      />
       <main>
         <RoomTour
           data={data}
@@ -95,9 +83,6 @@ export default async function RoomPrototype({
               <h1 className="sr-only">
                 {t.hero.first} {t.hero.last}
               </h1>
-              <span className="inline-flex items-center gap-2 rounded-full border border-line bg-ink/60 px-3.5 py-1.5 font-mono text-xs backdrop-blur">
-                prototype · room tour
-              </span>
               <p className="mt-6 max-w-xl text-lg text-paper/90 sm:text-xl">
                 <strong className="font-semibold text-paper">
                   {t.hero.role}.
@@ -331,7 +316,11 @@ export default async function RoomPrototype({
         labels={
           lang === "th"
             ? { close: "ปิด", download: "ดาวน์โหลด", title: "CV ของ Nantanatorn" }
-            : { close: "Close", download: "Download", title: "Nantanatorn's CV" }
+            : {
+                close: "Close",
+                download: "Download",
+                title: "Nantanatorn's CV",
+              }
         }
       />
     </>

@@ -5,6 +5,7 @@ import "../globals.css";
 import { Cursor } from "@/components/Cursor";
 import { Intro } from "@/components/Intro";
 import { INTRO_KEY } from "@/components/introKey";
+import { ROOM_QUERY } from "@/components/roomQuery";
 import { StarField } from "@/components/StarField";
 import { getDictionary, hasLocale, locales } from "./dictionaries";
 
@@ -55,11 +56,13 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        {/* Before first paint: opt in to heading reveals (JS is running), and
+        {/* Before first paint: opt in to heading reveals (JS is running), mark
+            screens that get the 3D room (the classic page stays hidden there
+            until it swaps), and
             hide the intro if it already played this session. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `document.documentElement.setAttribute("data-reveal","");try{if(sessionStorage.getItem("${INTRO_KEY}")==="1")document.documentElement.setAttribute("data-intro-seen","")}catch(e){}`,
+            __html: `document.documentElement.setAttribute("data-reveal","");if(matchMedia(${JSON.stringify(ROOM_QUERY)}).matches)document.documentElement.setAttribute("data-room","");try{if(sessionStorage.getItem("${INTRO_KEY}")==="1")document.documentElement.setAttribute("data-intro-seen","")}catch(e){}`,
           }}
         />
       </head>

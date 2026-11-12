@@ -115,8 +115,10 @@ export function mountStars(host: HTMLElement, reduced: boolean) {
   };
   if (!reduced) window.addEventListener("pointermove", onPointer);
 
-  const cover = document.querySelector<HTMLElement>("[data-sky-cover]");
+  // The 3D room or desk hero hides the sky; it may mount after this does.
+  let cover: HTMLElement | null = null;
   const covered = () => {
+    if (!cover?.isConnected) cover = document.querySelector<HTMLElement>("[data-sky-cover]");
     if (!cover) return false;
     const box = cover.getBoundingClientRect();
     return box.top <= 0 && box.bottom >= window.innerHeight;
